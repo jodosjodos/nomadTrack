@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %} 
+
+{% block content %}
+
+<div class="container">
+  <h1 class="center-align">Sign Up</h1>
+
+  <form action="{% url 'signup' %}" method="post" class="col s12">
+      {% csrf_token %}
+      
+      {% if form.non_field_errors %}
+          <div class="card-panel red lighten-4">
+              {% for error in form.non_field_errors %}
+                  <p class="red-text">{{ error }}</p>
+              {% endfor %}
+          </div>
+      {% endif %}
+
+      <div class="row">
+        <div class="input-field col s12">
+          {{ form.username.label_tag }}
+          {{ form.username }}
+          {% if form.username.errors %}
+              <span class="helper-text red-text">
+                  {% for error in form.username.errors %}
+                      {{ error }}
+                  {% endfor %}
+              </span>
+          {% endif %}
+        </div>
+
+        <div class="input-field col s12">
+          {{ form.first_name.label_tag }}
+          {{ form.first_name }}
+          {% if form.first_name.errors %}
+              <span class="helper-text red-text">
+                  {% for error in form.first_name.errors %}
+                      {{ error }}
+                  {% endfor %}
+              </span>
+          {% endif %}
+        </div>
+
+        <div class="input-field col s12">
+          {{ form.last_name.label_tag }}
+          {{ form.last_name }}
+          {% if form.last_name.errors %}
+              <span class="helper-text red-text">
+                  {% for error in form.last_name.errors %}
+                      {{ error }}
+                  {% endfor %}
+              </span>
+          {% endif %}
+        </div>
+
+        <div class="input-field col s12">
+          {{ form.password1.label_tag }}
+          {{ form.password1 }}
+          {% if form.password1.errors %}
+              <span class="helper-text red-text">
+                  {% for error in form.password1.errors %}
+                      {{ error }}
+                  {% endfor %}
+              </span>
+          {% endif %}
+        </div>
+
+        <div class="input-field col s12">
+          {{ form.password2.label_tag }}
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+              <span class="helper-text red-text">
+                  {% for error in form.password2.errors %}
+                      {{ error }}
+                  {% endfor %}
+              </span>
+          {% endif %}
+        </div>
+      </div>
+
+      <div>
+        <input type="submit" value="Sign Up" class="btn" />
+      </div>
+  </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+h1,
+.brand-logo {
+  font-family: "Style Script", cursive;
+}
+
+nav .nav-wrapper {
+  background: linear-gradient(90deg, #49bd13 0%, #039be5 100%);
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer.page-footer {
+  padding-top: 0;
+  text-align: right;
+  background: linear-gradient(90deg, #49bd13 0%, #039be5 100%);
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#homepage {
+  text-align: center;
+}
+
+a {
+  color: #26a69a;
+}
+
+@media only screen and (max-width: 600px) {
+  #home-img {
+    max-width: 100%;
+  }
+}
+.user-details-title {
+  font-size: 2em;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.user-details-container {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-details-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.user-detail-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.user-detail-item:last-child {
+  border-bottom: none;
+}
+
+.user-detail-item strong {
+  color: #555;
+}
+.test {
+  background-color: red;
+}
+
+.custom-footer {
+  padding: 20px 0;
+}
+
+.custom-footer .white-text {
+  font-weight: bold;
+}
+
+.custom-footer a:hover {
+  color: #ffeb3b !important; /* Change link color on hover */
+}
+
+.custom-footer i {
+  margin: 0 10px;
+  font-size: 24px;
+}
+
+.custom-footer .footer-copyright {
+  padding: 10px 0;
+}
