@@ -8,7 +8,7 @@ Welcome to **NomadT**, a comprehensive Travel Management System designed to simp
 
 - **User Registration and Authentication**:
   - Create accounts and log in to manage your bookings.
-  
+
 - **Booking Management**:
   - Search for, book, and manage your travel itineraries easily.
   
