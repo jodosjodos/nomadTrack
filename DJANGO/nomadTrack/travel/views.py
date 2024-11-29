@@ -8,6 +8,11 @@ from .forms import CheckingForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import os
+from django.db.models import Count
+from .models import Checking
+from django.db.models import Count, Q
+from django.http import JsonResponse
+from django.views import View
 
 # Create your views here.
 
@@ -31,9 +36,9 @@ class TravelDelete(LoginRequiredMixin, DeleteView):
     success_url = "/travel/"
 
 
-def home(request):
-    os.getenv("NAME")
-    return render(request, "home.html")
+# def home(request):
+#     os.getenv("NAME")
+#     return render(request, "home.html")
 
 
 def about(request):
@@ -119,3 +124,49 @@ def unassoc_checklist(request, travel_id, checklist_id):
     Travel.objects.filter(user=request.user)
     Travel.objects.get(id=travel_id).checklists.remove(checklist_id)
     return redirect("detail", travel_id=travel_id)
+
+
+def dashboard(request):
+    # Fetch travel-related data
+    travel_data = (
+        Travel.objects.annotate(total_checkings=Count("checking"))
+        .values("name", "country", "city", "total_checkings")
+        .order_by("-total_checkings")
+    )
+
+    # Total counts
+    total_travels = Travel.objects.count()
+    total_checklists = Checklist.objects.count()
+    checked_checklists = Checklist.objects.filter(name="checked").count()
+    unchecked_checklists = total_checklists - checked_checklists
+
+    # Checklist distribution for pie chart
+    checklist_pie_data = {
+        "Checked": checked_checklists,
+        "Unchecked": unchecked_checklists,
+    }
+
+    # Most visited travels (top by checkings)
+    top_travels = travel_data[:5]
+
+    # Recent travel checkings
+    recent_checkings = Checking.objects.order_by("-date")[:5]
+
+    # Prepare context data
+    context = {
+        "total_travels": total_travels,
+        "total_checklists": total_checklists,
+        "checklist_pie_data": checklist_pie_data,
+        "top_travels": top_travels,
+        "recent_checkings": recent_checkings,
+    }
+
+    return render(request, "home.html", context)
+
+
+class TravelList(View):
+    def get(self, request):
+        travels = Travel.objects.values(
+            'id', 'name', 'country', 'city', 'description', 'user_id'
+        )  # Fetch only the required fields as dictionaries
+        return JsonResponse(list(travels), safe=False)

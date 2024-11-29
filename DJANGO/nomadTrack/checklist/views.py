@@ -4,6 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Checklist
 from django.views.generic import DetailView, CreateView, DeleteView, UpdateView
 
+from django.http import JsonResponse
+from django.views import View
+
 
 @login_required
 def checklists_index(request):
@@ -34,3 +37,11 @@ class ChecklistUpdate(LoginRequiredMixin, UpdateView):
 class ChecklistDelete(LoginRequiredMixin, DeleteView):
     model = Checklist
     success_url = "/checklist/checklists"
+
+
+class AllCheckList(View):
+    def get(self, request):
+        checklists = Checklist.objects.values(
+            'id', 'name', 'description', 'user_id'
+        )  # Fetch the required fields as dictionaries
+        return JsonResponse(list(checklists), safe=False)

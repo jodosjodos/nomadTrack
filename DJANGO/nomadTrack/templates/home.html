@@ -2,10 +2,137 @@
 
 {% block content %}
 
-<div id="homepage">
-    <h1> NomadTrack</h1>
-    <hr>
-    <img src="./static/images/logo.png" id="home-img">
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      
+        .card {
+            background: linear-gradient(90deg, #49bd13 0%, #039be5 100%);
+            box-shadow: linear-gradient(90deg, #49bd13 0%, #039be5 100%)
+        }
+        .pie-chart-container {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+     
+    </style>
+</head>
+   
+    <div class="container mt-4">
+        <div class="row text-center mb-4">
+            <div class="col-md-6">
+                <div class="card p-3 bg-success text-white">
+                    <h5>Total Travels</h5>
+                    <h2>{{ total_travels }}</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-3 bg-primary text-white">
+                    <h5>Total Checklists</h5>
+                    <h2>{{ total_checklists }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-center mb-5">
+            <div class="col-md-12">
+                <h4>Checklist Distribution</h4>
+                <div class="pie-chart-container">
+                    <canvas id="checklistPieChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Top Travels -->
+            <div class="col-md-6 mb-4">
+                <h4>Top Travels</h4>
+                <div class="table-container">
+                    <table class="table table-bordered table-striped">
+                        <thead class=".tablee">
+                            <tr>
+                                <th>Name</th>
+                                <th>Country</th>
+                                <th>City</th>
+                                <th>Checkings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for travel in top_travels %}
+                            <tr>
+                                <td>{{ travel.name }}</td>
+                                <td>{{ travel.country }}</td>
+                                <td>{{ travel.city }}</td>
+                                <td>{{ travel.total_checkings }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Recent Checkings -->
+            <div class="col-md-6 mb-4">
+                <h4>Recent Checkings</h4>
+                <div class="table-container">
+                    <table class="table table-bordered table-striped">
+                        <thead class=".tablee">
+                            <tr>
+                                <th>Travel</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if recent_checkings %}
+                                {% for checking in recent_checkings %}
+                                <tr>
+                                    <td>{{ checking.travel.name }}</td>
+                                    <td>{{ checking.date }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="2" class="text-center">No recent checkings</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Chart.js Script -->
+    <script>
+        const pieData = {
+            labels: ['Checked', 'Unchecked'],
+            datasets: [{
+                data: [{{ checklist_pie_data.Checked }}, {{ checklist_pie_data.Unchecked }}],
+                backgroundColor: ['#4CAF50', '#FFC107'],
+                hoverOffset: 4
+            }]
+        };
+
+        const pieConfig = {
+            type: 'pie',
+            data: pieData
+        };
+
+        new Chart(document.getElementById('checklistPieChart'), pieConfig);
+    </script>
+
+    <!-- Include Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+</html>
 
 {% endblock %}

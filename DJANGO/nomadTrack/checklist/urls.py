@@ -8,7 +8,9 @@ urlpatterns = [
         views.ChecklistDetail.as_view(),
         name="checklists_detail",
     ),
-    path("checklists/create/", views.ChecklistCreate.as_view(), name="checklists_create"),
+    path(
+        "checklists/create/", views.ChecklistCreate.as_view(), name="checklists_create"
+    ),
     path(
         "checklists/<int:pk>/update/",
         views.ChecklistUpdate.as_view(),
@@ -19,4 +21,7 @@ urlpatterns = [
         views.ChecklistDelete.as_view(),
         name="checklists_delete",
     ),
+    path(
+        "list/", views.AllCheckList.as_view(), name="checklists_list"
+    ),  # API endpoint for retrieving all checklists
 ]
